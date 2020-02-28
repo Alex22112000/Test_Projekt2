@@ -1,0 +1,248 @@
+// kucherin12.02.20.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
+//
+
+#include <iostream>
+#include "stdlib.h"
+#include "stdio.h"
+#include "math.h"
+#include "fstream"
+
+using namespace std;
+
+
+void input(float* a, int n);
+void input1(float* a, int n);
+void input2(int** a, int n, int m);
+void output(float* a, int n);
+void output2(int** a, int n, int m);
+int maxelem(float* a, int n);
+int minelem(float* a, int n);
+float srznach(float* a, int n);
+int charstr(int** a, int n, int i);
+
+int main()
+{
+	setlocale(LC_ALL, "Russian");
+
+	/*
+	cout << "zadanie1a" << endl; // поменять исходный массив, вычитая из каждого элемента среднее значение
+	int n, m;
+	float h, * a;
+
+	cout << "количество элементов n = ";
+	cin >> n;
+	a = new float[n];
+	input(a, n);
+	cout << "Первоначальный массив" << endl;
+	output(a, n);
+
+	h = srznach(a, n);
+	cout << "Среднее значение = " << h << endl;
+	for (int i = 0; i < n; i++) a[i] -= h;
+	cout << "Преобразованный массив" << endl;
+	output(a, n);
+
+	/*
+    Входные данные:	n = 5
+
+	Первоначальный массив: 41  67  34  0  69
+
+	Вывод:	Среднее значение = 42.2
+
+	Преобразованный массив:	-1.2  24.8 -8.2 -42.2  26.8
+
+	Мой ответ: -1.2  24.8 -8.2 -42.2  26.8
+	*/
+
+	/*
+	cout << "zadanie1b" << endl; // поменять местами максимальный и первый отрицательный элементы
+	int n, m;
+	float h, * a;
+
+	cout << "количество элементов n = ";
+	cin >> n;
+	a = new float[n];
+	input1(a, n);
+	cout << "Первоначальный массив" << endl;
+	output(a, n);
+	cout << endl;
+
+	m = maxelem(a, n);
+	for (int i = 0; i < n; i++)
+	{
+	    if (a[i] < 0)
+		{
+			swap(a[i], a[m]);
+			break;
+		}
+	}
+	cout << "Преобразованный массив" << endl;
+	output(a, n);
+	
+	/*
+	Входные данные:	n = 5
+
+	Первоначальный массив: 5  -2  -7  0  19
+
+	Вывод:	максимальный элемент = 19, первый отрицательный элемент = -2
+
+	Преобразованный массив:	5  19  -7  0  -2
+
+	Мой ответ: 5  19  -7  0  -2
+	*/
+
+	/*
+	cout << "zadanie1c" << endl; // вычислить среднее значение элементов массива, отбросив минимальный и максимальный элементы
+	int n, m;
+	float h, * a;
+
+	cout << "количество элементов n = ";
+	cin >> n;
+	a = new float[n];
+	input(a, n);
+	cout << "Первоначальный массив" << endl;
+	output(a, n);
+	cout << endl;
+
+	m = maxelem(a, n);
+	swap(a[m], a[n - 1]);
+	m = minelem(a, n);
+	swap(a[m], a[n - 2]);
+	h = srznach(a, n - 2);
+	cout << "Среднее значение = " << h << endl;
+
+	/*
+	Входные данные:	n = 5
+
+	Первоначальный массив: 41  67  34  0  69 
+
+	Вывод:	Среднее значение = 47.3333, отброшены элементы min = 0, max = 69
+
+	Мой ответ: 47.3333
+	*/
+	
+	cout << "zadanie2" << endl; // Найти номер строки матрицы с максимальной характеристикой
+		
+	int** a, n, m, max = 0, num = 0;
+
+	cout << endl << "количество строк n = ";
+	cin >> n;
+	cout << "количество столбцов m = ";
+	cin >> m;
+	a = new int* [n];
+	for (int i = 0; i < n; i++) a[i] = new int[m];
+	input2(a, n, m);
+	cout << "Первоначальная матрица" << endl;
+	output2(a, n, m);
+	for (int i = 0; i < n; i++)
+	{
+		if (charstr(a, m, i) > max)
+		{
+			max = charstr(a, m, i);
+			num = i + 1;
+		}
+	}
+	cout << endl << num << " строка имеет максимальную характеристику, которая равна " << max << endl;
+	
+	/*
+	Входные данные:	количество строк n = 5
+	                количество столбцов m = 4
+
+	Первоначальная матрица
+	-100  -8 -69  32
+	  -5 -22 -43  46
+	  34  22 -72  40
+	  16 -16 -51 -98
+	 -86 -41 -76 -73
+
+
+	Вывод: 3 строка имеет максимальную характеристику, которая равна 96
+
+	Мой ответ: 3 строка имеет максимальную характеристику, которая равна 96
+	*/
+
+	return 0;
+}
+
+
+void input(float* a, int n)	// Заполняет одномерный массив случайными элементами
+{
+	for (int i = 0; i < n; i++)
+	{
+		a[i] = rand() % 100;
+	}
+} // end input
+
+void input1(float* a, int n) // Заполняет одномерный массив элементами с клавиатуры
+{
+	for (int i = 0; i < n; i++)
+	{
+		cin >> a[i];
+	}
+} // end input1
+
+void input2(int** a, int n, int m)	// Заполняет матрицу случайными элементами
+{
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			a[i][j] = rand() / 200 - 100;
+		}
+	}
+} // end input2
+
+void output(float* a, int n)	// Вывод массива
+{
+	for (int i = 0; i < n; i++)
+	{
+		cout << a[i] << "  ";
+	}
+} // end output
+
+void output2(int** a, int n, int m)	// Вывод матрицы
+{
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			printf("%5d", a[i][j]);
+		}
+		cout << endl;
+	}
+} // end output2
+
+int maxelem(float* a, int n) // функция ищет номер макимального элемента в массиве
+{
+	int m = 0;
+	for (int i = 0; i < n; i++)
+	{
+		if (a[i] >= a[m]) m = i;
+	}
+	return m;
+} // end maxelem
+
+int minelem(float* a, int n) // функция ищет номер минимального элемента в массиве
+{
+	int m = 0;
+	for (int i = 0; i < n; i++)
+	{
+		if (a[i] <= a[m]) m = i;
+	}
+	return m;
+} // end minelem
+
+float srznach(float* a, int n)	// функция ищет среднее значение элементов массива
+{
+	float s = 0;
+	for (int i = 0; i < n; i++) s = s + a[i];
+	s = s / n;
+	return s;
+} // end srznach
+
+int charstr(int** a, int n, int i)	// Ищет характеристику строки матрицы. Характеристика строки - сумма ее положительных четных элементов
+{									
+	int s = 0;
+	for (int j = 0; j < n; j++) if ((a[i][j] > 0) && (a[i][j] % 2 == 0)) s += a[i][j];
+	return s;
+} // end charstr
