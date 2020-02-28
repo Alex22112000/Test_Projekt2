@@ -1,0 +1,110 @@
+// kucherin14.02.20.cpp: определяет точку входа для консольного приложения.
+//
+
+#include <iostream>
+#include <math.h>
+#include <fstream>
+#include <stdio.h>
+void output(int a[], int n);
+void selection_sort(int* a, int n);
+
+
+using namespace std;
+
+
+int main()
+{
+	int* a, b, n = 0, i = -1;
+	setlocale(LC_ALL, "rus");
+	
+	ifstream F;
+	ofstream F1;
+	/*
+	ofstream F2;
+	F2.open("D:\\языки программирования\\8 lab1\\massiv.txt", ios::out);
+	for (int i=0; i < 1000; i++)
+	{
+		F2<<(rand () % 1000 - 500)*(rand () % 10 - 5) << " ";
+	}
+	F2.close();
+	*/
+
+	
+	F.open("D:\\языки программирования\\8 lab1\\massiv.txt", ios::in);
+	if (F.is_open())
+	{
+		cout << "файл открыт" << endl;
+		while (!F.eof())
+		{
+			F >> b;
+			cout << b << " ";
+			if (b != 0)
+			{
+				n++;
+			}
+		}
+	}
+	else
+	{
+		cout << "файл не открыт";
+	}
+	F.close();
+
+	a = new int[n];
+	ifstream F3;
+	F3.open("D:\\языки программирования\\8 lab1\\massiv.txt", ios::in);
+	cout << endl << F3.eof() << endl;
+	if (F3.is_open())
+	{
+		cout << "файл открыт" << endl;
+		while (!F3.eof())
+		{
+			//	cout << "b=" << endl;
+			F3 >> b;
+			//	cout << b<<" ";	
+			if (b != 0)
+			{
+				a[++i] = b;
+				cout << a[i] << " ";
+			}
+		}
+	}
+	else
+	{
+		cout << "файл не открыт";
+	}
+	F3.close();
+
+	selection_sort(a, n);
+	output(a, n);
+
+	return 0;
+}
+
+void selection_sort(int* a, int n)  //сортировка с помощью прямого выбора
+{
+	int i, j, min, temp;
+
+	for (i = 0; i < n - 1; i++)
+	{
+		min = i;
+		for (j = i + 1; j <= n - 1; j++)
+		{
+			if (a[j] < a[min])
+			{
+				min = j;
+			}
+		}
+		temp = a[i];
+		a[i] = a[min];
+		a[min] = temp;
+	}
+}  //end selection_sort
+
+void output(int a[], int n)  //функция выводит массив
+{
+	for (int i = 1; i <= n; i++)
+	{
+		cout << a[i];
+	}
+} //end output
