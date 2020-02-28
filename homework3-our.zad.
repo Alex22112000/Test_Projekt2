@@ -1,0 +1,407 @@
+// kucherin21.02.20.cpp: определяет точку входа для консольного приложения.
+//
+
+#include <iostream>
+#include <math.h>
+#include <fstream>
+#include <stdio.h>
+void input(int** a, int n, int m);
+void input1(int* a, int n);
+void output(int** a, int n, int m);
+void output1(int* a, int n);
+void transp1(int** a, int n);
+void transp2(int** a, int** b, int n, int m);
+void summatric(int** a, int** b, int** c, int n, int m);
+void proizvmatr(int** a, int** b, int** c, int n, int m, int k);
+void proizvmatrvect(int** a, int** b, int** c, int n, int m, int k);
+void proizvmatrchisl(int** a, int** c, int n, int m, int k);
+
+
+using namespace std;
+
+
+int main()
+{
+	setlocale(LC_ALL, "rus"); // вариант 6
+
+	/*
+	cout << "zadanie1a" << endl;
+	int n, m; 
+
+	cout << "количество строк = ";
+	cin >> n;
+
+	cout << "количество столбцов = ";
+	cin >> m;
+
+	int** a;
+	a = new int* [n];
+	for (int i = 0; i < n; i++)
+	{
+		a[i] = new int[m];
+	}
+	input(a, n, m);
+
+	cout << "первоначальный массив" << endl;
+	output(a, n, m);
+	cout << endl;
+
+	transp1(a, n);
+	cout << "транспонированная матрица" << endl;
+	output(a, n, m);
+	cout << endl;
+
+
+	cout << "zadanie1b" << endl;
+	int n, m;
+
+	cout << "количество строк = ";
+	cin >> n;
+
+	cout << "количество столбцов = ";
+	cin >> m;
+
+	int** a;
+	a = new int* [n];
+	for (int i = 0; i < n; i++)
+	{
+		a[i] = new int[m];
+	}
+	input(a, n, m);
+
+	cout << "первоначальный массив" << endl;
+	output(a, n, m);
+	cout << endl;
+
+	int** b;
+	b = new int* [m];
+	for (int i = 0; i < m; i++)
+	{
+		b[i] = new int[n];
+	}
+
+	transp2(a, b, n, m);
+	cout << "транспонированная матрица" << endl;
+	output(b, m, n);
+	cout << endl;
+	
+
+	cout << "zadanie2" << endl;
+	int i, j, n, m;
+	cout << "количество строк = ";
+	cin >> n;
+
+	cout << "количество столбцов = ";
+	cin >> m;
+
+	int** a;
+	a = new int* [n];
+	for (int i = 0; i < n; i++)
+	{
+		a[i] = new int[m];
+	}
+	input(a, n, m);
+
+	cout << "первоначальный массив a" << endl;
+	output(a, n, m);
+
+	int** b;
+	b = new int* [n];
+	for (int i = 0; i < n; i++)
+	{
+		b[i] = new int[m];
+	}
+	input(b, n, m);
+
+	cout << "первоначальный массив b" << endl;
+	output(b, n, m);
+	cout << endl;
+
+	int** c;
+	c = new int* [n];
+	for (int i = 0; i < n; i++)
+	{
+		c[i] = new int[m];
+	}
+
+	summatric(a, b, c, n, m);
+	cout << "матрица, равная сумме матриц" << endl;
+	output(c, n, m);
+	cout << endl;
+	
+
+	cout << "zadanie3" << endl;
+	int n, m1, m2, k;
+
+	cout << "количество строк матрицы a[][] = ";
+	cin >> n;
+
+	cout << "количество столбцов матрицы a[][] = ";
+	cin >> m1;
+
+	cout << "количество строк матрицы b[][] = ";
+	cin >> m2;
+
+	cout << "количество столбцов матрицы b[][] = ";
+	cin >> k;
+
+	int** a;
+	a = new int* [n];
+	for (int i = 0; i < n; i++)
+	{
+		a[i] = new int[m1];
+	}
+	input(a, n, m1);
+
+	cout << "первоначальный массив a" << endl;
+	output(a, n, m1);
+	cout << endl;
+
+	int** b;
+	b = new int* [m2];
+	for (int i = 0; i < m2; i++)
+	{
+		b[i] = new int[k];
+	}
+	input(b, m2, k);
+
+	cout << "первоначальный массив b" << endl;
+	output(b, m2, k);
+	cout << endl;
+	   	  
+	int** c;
+	c = new int* [n];
+	for (int i = 0; i < k; i++)
+	{
+		c[i] = new int[k];
+	}
+
+	if (m1 == m2)
+	{
+		proizvmatr(a, b, c, n, m1, k);
+		cout << "матрица, равная произведению матриц" << endl;
+		output(c, n, k);
+		cout << endl;
+	}
+	else
+	{
+		cout << "матрицы нельзя перемножить" << endl;
+	}
+
+
+	cout << "zadanie4" << endl;
+	int n, m1, m2, k = 1;
+
+	cout << "количество строк матрицы a[][] = ";
+	cin >> n;
+
+	cout << "количество столбцов матрицы a[][] = ";
+	cin >> m1;
+
+	cout << "количество элементов вектора b[] = ";
+	cin >> m2;
+
+	int** a;
+	a = new int* [n];
+	for (int i = 0; i < n; i++)
+	{
+		a[i] = new int[m1];
+	}
+	input(a, n, m1);
+
+	cout << "первоначальный массив a" << endl;
+	output(a, n, m1);
+	cout << endl;
+
+	int** b;
+	b = new int* [m2];
+	for (int i = 0; i < m2; i++)
+	{
+		b[i] = new int[k];
+	}
+	input(b, k, m2);
+
+	cout << "первоначальный вектор b" << endl;
+	output(b, k, m2);
+	cout << endl;
+
+	int** c;
+	c = new int* [n];
+	for (int i = 0; i < m2; i++)
+	{
+		c[i] = new int[m2];
+	}
+
+	if (m1 == k)
+	{
+		proizvmatrvect(a, b, c, n, m1, m2);
+		cout << "матрица, равная произведению матрицы на вектор" << endl;
+		output(c, n, m2);
+		cout << endl;
+	}
+	else
+	{
+		cout << "матрицу и вектор нельзя перемножить" << endl;
+	}
+
+
+	cout << "zadanie5" << endl;
+	int n, m, m2, k;
+
+	cout << "количество строк матрицы a[][] = ";
+	cin >> n;
+
+	cout << "количество столбцов матрицы a[][] = ";
+	cin >> m;
+
+	cout << "элемент A = ";
+	cin >> k;
+
+	int** a;
+	a = new int* [n];
+	for (int i = 0; i < n; i++)
+	{
+		a[i] = new int[m];
+	}
+	input(a, n, m);
+
+	cout << "первоначальный массив a" << endl;
+	output(a, n, m);
+	cout << endl;
+
+	int** c;
+	c = new int* [n];
+	for (int i = 0; i < n; i++)
+	{
+		c[i] = new int[m];
+	}
+
+	proizvmatrchisl(a, c, n, m, k);
+	cout << "матрица, равная произведению матрицы на число" << endl;
+	output(c, n, m);
+	cout << endl;
+	*/
+
+	cout << "zadanie1var" << endl;
+
+
+
+	return 0;
+}
+
+
+
+void transp1(int** a, int n)  // функция транспонирует матрицу
+{
+	int temp; // temp - число, необходимое для перемены элементов a[i][j] и a[j][i] местами
+
+	for (int i = 0; i < n - 1; i++) // i - количество строк в матрице
+		for (int j = i + 1; j < n; j++) // j - количество столбцов в матрице
+		{
+			temp = a[i][j];
+			a[i][j] = a[j][i];
+			a[j][i] = temp;
+		}
+}  // end transp1
+
+void transp2(int** a, int** b, int n, int m)  // функция транспонирует матрицу
+{
+	for(int i = 0; i < n; i++) // i - количество строк в матрице
+	{
+		for(int j = 0; j < m; j++) // j - количество столбцов в матрице
+		{
+			b[j][i] = a[i][j];
+		}
+	}
+}  // end transp2
+
+void summatric(int** a, int** b, int** c, int n, int m) // функция суммирует две матрицы
+{	
+	for (int i = 0; i < n; i++) // i - количество строк в матрице
+		for (int j = 0; j < m; j++) // j - количество столбцов в матрице
+		{
+			c[i][j] = a[i][j] + b[i][j];
+		}
+}  // end summatric
+
+void proizvmatr(int** a, int** b, int** c, int n, int m, int k) // функция перемножает две матрицы
+{
+	int s; // s - переменная, в которой хранится произведение двух матриц
+	for (int i = 0; i < n; i++) // i - количество строк в матрице a[][]
+	{
+		for (int j = 0; j < k; j++) // j - количество столбцов в матрице b[][]
+		{
+			s = 0;
+			for (int z = 0; z < m; z++) // m - количество столбцов в матрице a[][] и строк в матрице b[][]
+			{
+				s = s + a[i][z] * b[z][j]; // z - переменная, с помощью которой перемножаются строки матрицы a[][] и столбцы матрицы b[][]
+			}
+			c[i][j] = s;
+		}
+	}  
+}  // end proizvmatr
+
+void proizvmatrvect(int** a, int** b, int** c, int n, int m, int k) // функция перемножает матрицу и вектор
+{
+	int s; // s - переменная, в которой хранится произведение матрицы и вектора
+	for (int i = 0; i < n; i++) // i - количество строк в матрице a[][]
+	{
+		for (int j = 0; j < k; j++) // j - количество столбцов в векторе b[][]
+		{
+			s = 0;
+			for (int z = 0; z < m; z++) // m - количество столбцов в матрице a[][] и строк в векторе b[][]
+			{
+				s = s + a[i][z] * b[z][j]; // z - переменная, с помощью которой перемножаются строки матрицы a[][] и столбцы вектора b[][]
+			}
+			c[i][j] = s;
+		}
+	}
+}  // end proizvmatrvect
+
+void proizvmatrchisl(int** a, int** c, int n, int m, int k) // функция перемножает матрицу и число
+{
+	for (int i = 0; i < n; i++) // i - количество строк в матрице
+		for (int j = 0; j < m; j++) // j - количество столбцов в матрице
+		{
+			c[i][j] = a[i][j] * k;
+		}
+}  // end proizvmatrchisl
+
+void input(int** a, int n, int m)  // функция вводит двумерный массив
+{
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < m; j++)
+		{
+			a[i][j] = rand() % 100;
+		}
+	cout << endl;
+} // end input
+
+void input1(int* a, int n)  // функция вводит одномерный массив
+{
+	for (int i = 0; i < n; i++)
+	{
+		a[i] = rand() % 100;
+	}
+	cout << endl;
+} // end input1
+
+void output(int** a, int n, int m)  // функция выводит двумерный массив
+{
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			printf("%6d", a[i][j]);
+		}
+		cout << endl;
+	}
+} // end output
+
+void output1(int* a, int n)  // функция выводит одномерный массив
+{
+	for (int i = 0; i < n; i++)
+	{
+		cout << a[i] << " ";
+	}
+} //end output1
