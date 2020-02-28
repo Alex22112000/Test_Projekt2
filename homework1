@@ -1,0 +1,51 @@
+#include <iostream>
+#include "stdlib.h"
+#include "stdio.h"
+#include "math.h"
+
+#include "fstream"
+
+using namespace std;
+
+
+void input(float* a, int n);
+void input1(float* a, int n);
+void input2(int** a, int n, int m);
+void output(float* a, int n);
+void output2(int** a, int n, int m);
+int maxelem(float* a, int n);
+int minelem(float* a, int n);
+float srznach(float* a, int n);
+int charstr(int** a, int n, int i);
+
+int main()
+{
+	setlocale(LC_ALL, "Russian");
+
+	/*
+	cout << "zadanie1a" << endl; // поменять исходный массив, вычитая из каждого элемента среднее значение
+	int n, m;
+	float h, * a;
+
+	cout << "количество элементов n = ";
+	cin >> n;
+	a = new float[n];
+	input(a, n);
+	cout << "Первоначальный массив" << endl;
+	output(a, n);
+
+	h = srznach(a, n);
+	cout << "Среднее значение = " << h << endl;
+	for (int i = 0; i < n; i++) a[i] -= h;
+	cout << "Преобразованный массив" << endl;
+	output(a, n);
+
+	/*
+    Входные данные:	n = 5
+
+	Первоначальный массив: 41  67  34  0  69
+
+	Вывод:	Среднее значение = 42.2
+
+	Преобразованный массив:	-1.2  24.8 -8.2 -42.2  26.8
+	*/
