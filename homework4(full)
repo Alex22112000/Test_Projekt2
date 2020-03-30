@@ -1,0 +1,595 @@
+// kucherin29.03.20.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
+//
+
+#include <iostream>
+#include <math.h>
+#include <fstream>
+#include <stdio.h>
+#include "iomanip"
+#include "cstdlib"
+#include "ctime"
+
+void input(int** a, int** b, int** c, int& n, int& m, int** bn, int** dm);
+void input1(int** a, int n, int m);
+void output(int** a, int n, int m);
+void output1(int** a, int n);
+void output2(int* a, int n);
+void output3(int** a, int n, int m);
+void proizvmatrchisl(int** a, int r, int n, int m);
+void proizvvect(int** bn, int** dm, int** b, int n, int m);
+void proizvmatr(int** b, int** c, int** d, int n, int m);
+void summatric(int** a, int** d, int** c, int n, int m);
+void check(int** a, int i, int j);
+void life(int** a, int n, int m);
+
+using namespace std;
+
+
+int main()
+{
+	setlocale(LC_ALL, "Russian");
+	int i, j, n, m, number;
+
+	ifstream F1;
+
+	int** a;
+	int** b;
+	int** c;
+	int** d;
+	int** bn;
+	int** dm;
+	F1.open("D:\\языки программирования\\10 lab2-двумерные массивы\\matric.txt", ios::in);
+	F1 >> n >> m;
+	a = new int* [n];
+	b = new int* [n];
+	d = new int* [n];
+	for (i = 0; i < n; i++)
+	{
+		a[i] = new int[m];
+		b[i] = new int[m];
+		d[i] = new int[m];
+	}
+
+	c = new int* [m];
+	for (i = 0; i < n; i++)
+	{
+		c[i] = new int[n];
+	}
+
+	bn = new int* [m];
+	for (i = 0; i < m; i++)
+	{
+		bn[i] = new int[1];
+	}
+
+	dm = new int* [1];
+	for (i = 0; i < n; i++)
+	{
+		dm[i] = new int[1];
+	}
+
+	input(a, b, c, n, m, bn, dm);
+
+	cout << "введите номер задания: \n1 - «Игра в жизнь» \n2 - «Решение СЛАУ методом Гаусса» \n3 - «Состязания по стрельбе» ";
+	cout << "\n4 - Первое задание по вариантам \n5 - Второе задание по вариантам \n0 - exit\n" << endl;
+	cin >> number;
+	cout << endl;
+
+	while (number != 0)
+	{
+		switch (number)
+		{
+		case 1:
+		{
+			cout << "zadanie1" << endl;
+
+			int n1 = 0, m1 = 0, g = 0;
+			cout << "количество строк = "; 
+			cin >> n1; 
+
+			cout << "количество столбцов = "; 
+			cin >> m1; 
+
+			cout << "количество поколений = "; 
+			cin >> g; 
+
+			int** a1;
+			a1 = new int* [n1];
+			for (int i = 0; i < n1; i++) 
+			{
+				a1[i] = new int[m1];
+			}
+			input1(a1, n1, m1);
+			life(a1, n1, m1);
+			for (int f = 1; f <= g; f++)
+			{
+				cout << "Поколение " << f << endl;
+				for (int i = 1; i < n1 - 1; i++)
+					for (int j = 1; j < m1 - 1; j++)
+						check(a1, i, j);
+				output3(a1, n1, m1);
+				cout << endl;
+			}
+			break;
+		}
+
+		case 2:
+		{
+			cout << "zadanie2" << endl;
+			int n2, i, j, k;
+
+			double d, s;
+
+			cout << "порядок матрицы = ";
+			cin >> n2;
+			cout << endl;
+
+			double** a2 = new double* [n2];
+
+			for (i = 0; i <= n2; i++)
+			{
+				a2[i] = new double[n2];
+			}
+
+			double** a3 = new double* [n2];
+
+			for (i = 0; i <= n2; i++)
+			{
+				a3[i] = new double[n2];
+			}
+
+			double* b = new double[n2];
+
+			double* x = new double[n2];
+
+			cout << "введите коэффициенты и свободные члены " << endl;
+
+			for (i = 1; i <= n2; i++)
+
+			{
+
+				for (j = 1; j <= n2; j++)
+
+				{
+
+					cout << "a[ " << i << "," << j << "]= ";
+
+					cin >> a2[i][j];
+
+					a3[i][j] = a2[i][j];
+
+				}
+				cout << "b,[ " << i << "]= ";
+				cin >> b[i];
+
+			}
+
+			for (k = 1; k <= n2; k++) // прямой ход
+
+			{
+
+				for (j = k + 1; j <= n2; j++)
+
+				{
+
+					d = a2[j][k] / a2[k][k]; // формула (1)
+
+					for (i = k; i <= n2; i++)
+
+					{
+
+						a2[j][i] = a2[j][i] - d * a2[k][i]; // формула (2)
+
+					}
+
+					b[j] = b[j] - d * b[k]; // формула (3)
+
+				}
+
+			}
+
+			for (k = n2; k >= 1; k--) // обратный ход
+
+			{
+
+				d = 0;
+
+				for (j = k + 1; j <= n2; j++)
+
+				{
+
+					s = a2[k][j] * x[j]; // формула (4)
+
+					d = d + s; // формула (4)
+
+				}
+
+				x[k] = (b[k] - d) / a2[k][k]; // формула (4)
+
+			}
+
+			cout << endl;
+			cout << "корни системы " << endl;
+
+			for (i = 1; i <= n2; i++)
+
+				cout << "x[" << i << "]=" << x[i] << " " << endl;
+			break;
+		}
+
+		case 3:
+		{
+			cout << "zadanie3" << endl;
+			int mx = 0, mxn = 0, maxn = 0, s = 0, k = 0, count = -1, l = 0;
+			int n = 0, m = 0;
+
+			cout << "количество строк = ";
+			cin >> n;
+			cout << "количество столбцов = ";
+			cin >> m;
+			cout << endl;
+
+			int** e;
+			e = new int* [n];
+			for (i = 0; i < n; i++)
+			{
+				e[i] = new int[m];
+			}
+			int* f;
+			int* g;
+			f = new int[n];
+			g = new int[n];
+
+			ifstream F2;
+			F2.open("D:\\языки программирования\\10 lab2-двумерные массивы\\shot.txt", ios::in);
+			while (!F2.eof())
+			{
+				for (i = 0; i < n; i++)
+				{
+					for (j = 0; j < m; j++)
+					{
+						F2 >> e[i][j]; // считывание данных в 2й массив "e"
+					}
+				}
+			}
+
+			cout << "баллы стрелков" << endl;
+			output(e, n, m);
+			for (int i = 0; i < n; i++)
+			{
+				mx = 0;
+				for (int j = 0; j < m; j++)
+				{
+					if (e[i][j] > mx)
+					{
+						mx = e[i][j];
+					}
+					g[i] = mx;
+				}
+			}
+
+			cout << "максимальный балл каждого стрелка" << endl;
+			output2(g, n);
+			cout << endl;
+			for (int i = 0; i < n; i++)
+			{
+				s = 0;
+				for (int j = 0; j < m; j++)
+				{
+					s = s + e[i][j];
+				}
+				f[i] = s;
+			}
+
+			cout << "сумма баллов каждого стрелка" << endl;
+			output2(f, n);
+			cout << endl;
+			for (int i = 0; i < n; i++)
+			{
+				if (g[i] > mxn)
+				{
+					mxn = g[i];
+					k = i + 1;
+				}
+				else
+					if (g[i] == mxn)
+					{
+						for (int i = 0; i < n; i++)
+						{
+							if (f[i] > maxn)
+							{
+								maxn = f[i];
+								k = i + 1;
+							}
+						}
+					}
+			}
+			cout << "победил стрелок под номером " << k << endl;
+			break;
+		}
+
+		case 4:
+		{
+			cout << "Вариант 6" << endl;
+			cout << "zadanie1var" << endl;
+
+			int j_n = 0, j_m = 0, i_n = 0, i_m = 0;
+			int max = -100001, min = 100001;
+
+			cout << "первоначальная матрица a" << endl;
+			output(a, n, n);
+
+			for (int i = 1; i < n; i++)
+			{
+				for (int j = 0; j < n - i - 1; j++)
+				{
+					if ((a[i][j] > 0) && (a[i][j] < min))
+					{
+						min = a[i][j];
+						i_n = i;
+						i_m = j;
+					}
+				}
+			}
+			for (int i = n / 2; i < n; i++)
+			{
+				for (int j = i; j > n - i - 1; j--)
+				{
+					if ((a[i][j] < 0) && (a[i][j] > max))
+					{
+						max = a[i][j];
+						j_n = i;
+						j_m = j;
+					}
+				}
+			}
+			cout << "min = " << min << endl;
+			cout << "max = " << max << endl;
+			cout << endl;
+
+			for (int i = 0; i < n; i++)
+			{
+				for (int j = 0; j < n; j++)
+				{
+					a[j_n][j_m] = min;
+					a[i_n][i_m] = max;
+				}
+			}
+			cout << "измененная матрица a" << endl;
+			output(a, n, n);
+
+			break;
+		}
+
+		case 5:
+		{
+			cout << "Вариант 6" << endl;
+			cout << "zadanie2var" << endl;
+			int r = 2;
+
+			cout << "первоначальная матрица a" << endl;
+			output(a, n, n);
+
+			cout << "число r = 2" << endl;
+			cout << "матрица a, умноженная на число r" << endl;
+			proizvmatrchisl(a, r, n, n);
+			output(a, n, n);
+
+			cout << "первоначальный вектор bn" << endl;
+			output(bn, m, 1);
+			cout << "первоначальный вектор dm" << endl;
+			output(dm, 1, n);
+
+			cout << "матрица b, равная произведению двух векторов bn и dm" << endl;
+			proizvvect(bn, dm, b, n, m);
+			output(b, n, m);
+
+			cout << "первоначальная матрица c" << endl;
+			output(c, m, n);
+
+			if (n == m)
+			{
+				cout << "матрица d, равная произведению матриц b(bn и dm) и c" << endl;
+				proizvmatr(b, c, d, n, m);
+				output(d, n, m);
+				cout << endl;
+			}
+			else
+			{
+				cout << "матрицы нельзя перемножить" << endl;
+			}
+
+			cout << "Ответ" << endl;
+			//cout << "матрица c, равная сумме матриц a и d" << endl;
+			summatric(a, d, c, n, m);
+			output(c, n, m);
+			cout << endl;
+			break;
+		}
+
+		case 0:
+		{
+			return 0;
+		}
+		} // end switch
+		cout << "введите номер задания: \n1 - «Игра в жизнь» \n2 - «Решение СЛАУ методом Гаусса» \n3 - «Состязания по стрельбе» ";
+		cout << "\n4 - Первое задание по вариантам \n5 - Второе задание по вариантам \n0 - exit" << endl;
+		cin >> number;
+		cout << endl;
+	} // end while
+}
+
+
+
+void input(int** a, int** b, int** c, int& n, int& m, int** bn, int** dm)  // функция считывает данные из файла и заполняет 3 массива и 2 вектора
+{
+	ifstream F1;
+	F1.open("D:\\языки программирования\\10 lab2-двумерные массивы\\matric.txt", ios::in);
+
+	F1 >> n >> m; // считывание данных о размерности трех массивов и двух векторов
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			F1 >> a[i][j]; // считывание данных в 1й массив "a"
+		}
+	}
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			F1 >> b[i][j]; // считывание данных в 2й массив "b"
+		}
+	}
+	for (int i = 0; i < m; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			F1 >> c[i][j]; // считывание данных в 3й массив "c"
+		}
+	}
+	for (int i = 0; i < m; i++)
+	{
+		for (int j = 0; j < 1; j++)
+		{
+			F1 >> bn[i][j]; // считывание данных во 1й вектор "bn"
+		}
+	}
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			F1 >> dm[i][j]; // считывание данных в 2й вектор "dm"
+		}
+	}
+	F1.close();
+} // end input
+
+void input1(int** a, int n, int m) // функция заполняет матрицу 0
+{
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < m; j++) 
+			a[i][j] = 0;
+} // end input1
+
+void output(int** a, int n, int m)  // функция выводит двумерный массив
+{
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			printf("%5d ", a[i][j]); // вывод элемента матрицы на экран
+		}
+		cout << endl;
+	}
+	cout << endl;
+} // end output
+
+void output1(int** a, int n)  // функция выводит двумерный массив для квадратной матрицы
+{
+	for (int i = 1; i < n - 1; i++)
+	{
+		for (int j = 1; j < n - 1; j++)
+		{
+			printf("%5d ", a[i][j]); // вывод элемента матрицы на экран
+		}
+		cout << endl;
+	}
+	cout << endl;
+} // end output1
+
+void output2(int* a, int n) // функция выводит одномерный массив
+{
+	for (int i = 0; i < n; i++)
+	{
+		cout << a[i] << " "; // вывод элемента массива на экран
+	}
+	cout << endl;
+} // end output2
+
+void output3(int** a, int n, int m) // функция выводит массив из 0 и 1
+{
+	for (int i = 1; i < n - 1; i++)
+	{
+		for (int j = 1; j < m - 1; j++)
+		{
+			if (a[i][j] == 1)
+			{
+				cout << setw(2) << "1"; // setw - функция отступа
+			}
+			else cout << setw(2) << "0";
+		}
+		cout << endl;
+	}
+} // end output3
+
+void proizvmatrchisl(int** a, int r, int n, int m)
+{
+	for (int i = 0; i < n; i++) // i - количество строк в матрице
+		for (int j = 0; j < m; j++) // j - количество столбцов в матрице
+		{
+			a[i][j] = a[i][j] * r;
+		}
+} // end proizvmatrchisl
+
+void proizvvect(int** bn, int** dm, int** b, int n, int m) // функция перемножает два вектора
+{
+	for (int i = 0; i < n; i++) // i - количество строк в векторе
+	{
+		for (int j = 0; j < m; j++) // j - количество столбцов в векторе
+		{
+			int s = 0;
+			for (int t = 0; t < 1; t++)
+			{
+				s = s + bn[i][t] * dm[t][j];
+			}
+			b[i][j] = s;
+		}
+	}
+} // end proizvvect
+
+void proizvmatr(int** b, int** c, int** d, int n, int m) // функция перемножает две матрицы
+{
+	for (int i = 0; i < n; i++) // i - количество строк в матрице
+	{
+		for (int j = 0; j < n; j++) // j - количество столбцов в матрице
+		{
+			int s = 0;
+			for (int t = 0; t < m; t++)
+			{
+				s = s + b[i][t] * c[t][j];
+			}
+			d[i][j] = s;
+		}
+	}
+} // end proizvmatr
+
+void summatric(int** a, int** d, int** c, int n, int m) // функция суммирует две матрицы
+{
+	for (int i = 0; i < n; i++) // i - количество строк в матрице
+	{
+		for (int j = 0; j < m; j++) // j - количество столбцов в матрице
+		{
+			c[i][j] = a[i][j] + d[i][j];
+		}
+	}
+} // end summatric
+
+void check(int** a, int i, int j)  // функция проверяет условия для "Игры в жизнь" и оживляет или убивает клетки
+{
+	int lcount = 0;
+	for (int k = i - 1; k < i + 2; k++)
+		for (int x = j - 1; x < j + 2; x++)
+			lcount += a[k][x];
+	lcount -= a[i][j];
+	if (lcount == 3 && a[i][j] == 0) a[i][j] = 1;
+	if ((lcount < 2 || lcount > 3) && a[i][j] == 1) a[i][j] = 0;
+} // end check
+
+void life(int** a, int n, int m) // функция заполняет матрицу случайными числами
+{
+	srand(time(NULL));
+	for (int i = 1; i < n - 1; i++)
+		for (int j = 1; j < m - 1; j++) a[i][j] = rand() % 2;
+} // end life
+
