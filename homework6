@@ -1,0 +1,242 @@
+// kucherin29.03.20.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
+//
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <ctype.h>
+#include <stdio.h>
+#include <cstdio>
+#include <string.h>
+#include <cstring>
+#include <stdlib.h>
+#include <fstream>
+
+int palindrom(char* a);
+int palindrom1(char* a);
+void changeString(char* a);
+void newString(char* a, char* b);
+
+
+using namespace std;
+
+int main()
+{
+	setlocale(LC_ALL, "Russian");
+
+	/*
+	cout << "Задание 1 - Проверка палиндрома(1 способ)" << endl;
+	char* s = new char[80];
+
+	cout << "Введите строку - ";
+	cin.getline(s, 255);
+
+	if (palindrom(s))
+		cout << "палиндром" << endl;
+	else
+		cout << "не палиндром" << endl;
+
+
+	cout << "Задание 1 - Проверка палиндрома(2 способ)" << endl;
+	int n;
+	char* s = new char[1];
+
+	cout << "Введите строку - ";
+	cin.getline(s, 255);
+
+	n = strlen(s);
+	cout << n << ' ' << s << endl;
+	cout << endl;
+
+	changeString(s);
+	cout << s << ' ' << strlen(s) << endl;
+	if (palindrom1(s))
+		cout << "палиндром" << endl;
+	else
+		cout << " не палиндром" << endl;
+
+
+	cout << "Задание 1 - Проверка палиндрома(3 способ)" << endl;
+	int n;
+	char* s = new char[1];
+	char* s1 = new char[1];
+
+	cout << "Введите строку - ";
+	cin.getline(s, 255);
+
+	n = strlen(s);
+	cout << n << ' ' << s << endl;
+
+	newString(s, s1);
+	cout << s1 << ' ' << strlen(s1) << endl;
+	if (palindrom1(s1))
+		cout << "палиндром";
+	else
+		cout << " не палиндром";
+
+
+	cout << "Задание 2 - Встречается ли в заданном текстовом файле заданная последовательность символов " << endl;
+	const int len = 81;
+	char word[len], s[len];
+	ifstream  fin("D:\\языки программирования\\11 строки\\text.txt");
+	if (!fin)
+	{
+		cout << "Файл не найден" << endl;
+		return 1;
+	}
+	cout << "Введите последовательность символов - ";
+	cin >> word;
+	while (fin.getline(s, len))
+	{
+		if (strstr(s, word))
+		{
+			cout << "Данная последовательность символов есть в файле ";
+		}
+		else
+			cout << "Данной последовательности символов в файле нет ";
+	}
+
+
+	cout << "Задание 3 - Подсчет количества вхождений слова в текст(1 способ)" << endl;
+	const int len = 81;
+	char word[len], s[len];
+	ifstream  fin("D:\\языки программирования\\11 строки\\text.txt");
+	if (!fin)
+	{
+		cout << "Ошибка открытия файла" << endl;
+		return 1;
+	}
+	cout << "Введите заданное слово - ";
+	cin >> word;
+	int n = strlen(word);
+	int count = 0;
+	while (fin.getline(s, len))
+	{
+		char* p = s;
+		while (p = strstr(p, word))
+		{
+			char* c = p;
+			p += n;
+			if (c != s)
+			{
+				if (!ispunct(*(c - 1) && !isspace(*(c - 1))))
+				{
+					continue;
+				}
+			}
+			if (ispunct(*p) || isspace(*p) || (*p == '\0'))
+				count++;
+		}
+	}
+	cout << "Слово " << word << " встречается в тексте " << count << " раз " << endl;
+	*/
+
+	cout << "Задание 3 - Подсчет количества вхождений слова в текст(2 способ)" << endl;
+	const int n = 256;
+	char s[n];
+	char seps[] = "!?.,;/*-+\n\t ";
+	ifstream  fin("D:\\языки программирования\\11 строки\\text.txt");
+	if (!fin)
+	{
+		cout << "Ошибка при открытии файла" << endl;
+		return 1;
+	}
+	char* cp = 0;
+	cp = strtok(s, seps);
+	char word[n];
+	cout << "Введите слово - ";
+	cin >> word;
+	int count = 0;
+	while (fin.getline(s, n))
+	{
+		while (cp != NULL)
+		{
+			if (strcmp(cp, word))
+				count++;
+
+			cp = strtok(NULL, seps);
+		}
+	}
+	cout << "Слово " << word << " встречается в тексте " << count << " раз " << endl;
+
+
+	return 0;
+}
+
+
+int palindrom(char* a) // функция, которая проверяет, является ли строка палиндромом
+{
+	bool t = 1;
+	for (int i = 0, j = strlen(a) - 1; i < j;) // i –индекс рассматриваемого символа слева, j – индекс символа справа
+	{
+		if (isalpha(a[i]))
+		{
+			if (isalpha(a[j]))
+			{
+				if (tolower(a[i]) != tolower(a[j])) 
+				{
+					t = 0;
+					break;
+				}
+				i++;
+				j--;
+			}
+			else
+				j--;
+		}
+		else 
+			i++;
+	}
+	return t; // t = 1, если строка – палиндром; t=0 - если строка – не палиндром; 
+} // end palindrom
+
+int palindrom1(char* a) // функция, которая проверяет, является ли строка палиндромом
+{
+	bool t = 1;
+	int n = strlen(a);
+	for (int i = 0; i < n / 2; i++) // Сравниваем символы на одном расстоянии от начала и от конца строки  
+	{
+		if (a[i] != a[n - i - 1]) 
+		{
+			t = 0; 
+			break;
+		}
+
+	}
+	return t;
+
+} // end palindrom1
+
+void changeString(char* a) // функция, которая убирает из строки все символы, кроме букв
+{
+	int n = strlen(a);
+	int i = 0;
+	while (i < n) 
+	{
+		if (!isalpha(a[i])) 
+		{
+			for (int j = i; j < n - 1; j++) 
+			{
+				a[j] = a[j + 1];
+			}
+			n--;
+		}
+		a[i] = tolower(a[i]); 
+		i++;
+	}
+	a[n] = '\0';
+
+} // end changeString
+
+void newString(char* a, char* b) // функция, которая получает новую строку, состоящую только из букв исходной строки
+{
+	int n = strlen(a);
+	int k = 0;
+	for (int i = 0; i < n; i++) // i - индекс символа в строке a, k - индекс символа в строке b
+	{
+		if (isalpha(a[i])) 
+		{
+			b[k++] = tolower(a[i]);
+		}
+	}
+	b[k] = '\0';
+} // end newString
