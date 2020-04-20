@@ -1,0 +1,298 @@
+// kucherin29.03.20.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
+//
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <ctype.h>
+#include <stdio.h>
+#include <cstdio>
+#include <string.h>
+#include <cstring>
+#include <stdlib.h>
+#include <fstream>
+#include <windows.h>
+
+int length(char* s);
+int Rand(int max);
+bool Palindrom(char* text);
+
+using namespace std;
+
+int main()
+{
+	setlocale(LC_ALL, "Russian");
+	int number;
+
+	cout << "введите номер задания: \n1 - задание 1 (в классе) \n2 - задание 2 \n3 - задание 3 ";
+	cout << "\n4 - задание 4 \n0 - exit\n" << endl;
+	cin >> number;
+	cout << endl;
+
+	while (number != 0)
+	{
+		switch (number)
+		{
+		case 1:
+		{
+			cout << "задание 1 (в классе)" << endl;
+			cout << "Написать функцию вычисления длины строки" << endl;
+			cin.clear();
+			cin.ignore();
+
+			int i;
+			char* s = new char[80];
+
+			cout << "Введите строку - ";
+			cin.getline(s, 255);
+
+			length(s);
+			cout << endl;
+			break;
+		}
+
+		case 2:
+		{
+			cout << "задание 2" << endl;
+			cout << "Написать программу, которая использует генератор случайных чисел" << endl;
+			cout << "Программа должна создавать предложения, выбирая случайным образом слова из массивов" << endl;
+			cin.clear();
+			cin.ignore();
+
+			char** article = new char*[2];
+			for (int i = 0; i < 2; i++)
+			{
+				article[i] = new char[4];
+			}
+			char** noun = new char*[10];
+			for (int i = 0; i < 10; i++)
+			{
+				noun[i] = new char[10];
+			}
+			char** verb = new char*[10];
+			for (int i = 0; i < 10; i++)
+			{
+				verb[i] = new char[10];
+			}
+			char** preposit = new char*[10];
+			for (int i = 0; i < 10; i++)
+			{
+				preposit[i] = new char[10];
+			}
+			int* temp = new int[6];
+			char* propos = new char[256];
+
+			ifstream fin("D:\\языки программирования\\12 lab_stroki\\predl.txt");
+			for (int i = 0; i < 2; i++)
+			{
+				fin.getline(article[i], 4);
+			}
+			for (int i = 0; i < 10; i++)
+			{
+				fin.getline(noun[i], 10);
+			}
+			for (int i = 0; i < 10; i++)
+			{
+				fin.getline(verb[i], 10);
+			}
+			for (int i = 0; i < 10; i++)
+			{
+				fin.getline(preposit[i], 10);
+			}
+			fin.close();
+
+			int offer_count;
+			cout << "количество предложений = ";
+			cin >> offer_count;
+			cout << endl;
+
+			for (int i = 0; i < offer_count; i++)
+			{
+				temp[0] = rand() % 2;
+				temp[1] = rand() % 10;
+				temp[2] = rand() % 10;
+				temp[3] = rand() % 10;
+				temp[4] = rand() % 2;
+				temp[5] = rand() % 10;
+
+				for (int i = 0; i < 255; i++)
+				{
+					propos[i] = NULL;
+				}
+				propos[255] = '0';
+
+				strcat(propos, article[temp[0]]);
+				strcat(propos, " ");
+				strcat(propos, noun[temp[1]]);
+				strcat(propos, " ");
+				strcat(propos, verb[temp[2]]);
+				strcat(propos, " ");
+				strcat(propos, preposit[temp[3]]);
+				strcat(propos, " ");
+				strcat(propos, article[temp[4]]);
+				strcat(propos, " ");
+				strcat(propos, noun[temp[5]]);
+				strcat(propos, ".");
+				propos[0] = toupper(propos[0]);
+				cout << "Предложение " << i + 1 << " - " << propos << endl;
+			}
+			cout << endl;
+			break;
+		}
+
+		case 3:
+		{
+			cout << "задание 3" << endl;
+			cout << "Написать функцию palindrom" << endl;
+			cout << "На результат проверки не должны влиять знаки препинания, пробелы и разный регистр букв" << endl;
+			cout << "Т.е.проверяются только буквы строки" << endl;
+			cin.clear();
+			cin.ignore();
+
+			SetConsoleCP(1251);
+			SetConsoleOutputCP(1251);
+
+			char* text = new char[255];
+
+			cout << "Введите строку длиной не более 255 символов - ";
+			cin.getline(text, 255);
+
+			if (Palindrom(text))
+				cout << "Палиндром\n";
+			else
+				cout << "Не палиндром\n";
+
+			system("pause");
+			break;
+		}
+
+		case 4:
+		{
+			cout << "задание 4" << endl;
+			cout << "Подсчитать количество слов и предложений в текстовом файле" << endl;
+			cin.clear();
+			cin.ignore();
+
+			const int n = 255;
+			char s[n];
+			int l, count = 0, k = 0;
+			ifstream  fin("D:\\языки программирования\\12 lab_stroki\\text7.txt");
+			if (!fin)
+			{
+				cout << "Ошибка при открытии файла" << endl;
+				return 1;
+			}
+			while (fin.getline(s, n))
+			{
+				int i = 0;
+				while (s[i] == ' ' && s[i] != '\0')
+				{
+					i++;
+				}
+				l = 0;
+				while (s[i] != '\0')
+				{
+					if (s[i] != ' ' && l == 0 && s[i] != '-')
+					{
+						l = 1;
+						count++;
+					}
+					else
+						if (s[i] == ' ')
+							l = 0;
+					i++;
+				}
+			}
+			cout << "Количество слов в тексте равно " << count << endl;
+
+			for (int i = 0; i < n; i++)
+			{
+				if (s[i] == '.' || s[i] == '!' || s[i] == '?')
+					k++;
+			}
+			cout << "Количество предложений в тексте равно " << k << endl;
+			break;
+		}
+
+		case 0:
+		{
+			return 0;
+		}
+		} // end switch
+		cout << "введите номер задания: \n1 - задание 1 (в классе) \n2 - задание 2 \n3 - задание 3 ";
+		cout << "\n4 - задание 4 \n0 - exit\n" << endl;
+		cin >> number;
+		cout << endl;
+	} // end while
+}
+
+
+int length(char* s) // функция, которая считает длину строки
+/*
+входная строка: asd, fgh
+ответ: длина строки равна 8
+правильный ответ: длина строки равна 8
+
+входная строка: апрель - карантин
+ответ: длина строки равна 17
+правильный ответ: длина строки равна 17
+
+входная строка: (четыре пробела)
+ответ: длина строки равна 4
+правильный ответ: длина строки равна 4
+*/
+{
+	int i;
+	for (i = 0; s[i] != '\0'; i++);
+	cout << "длина строки равна " << i << endl;
+
+	return i;
+} // end length
+
+int Rand(int max) // функция, которая генерирует случайные числа
+{
+	return rand() % max;
+} // end Rand
+
+bool Palindrom(char* text) // функция, которая проверяет, является ли строка палиндромом
+/*
+входная строка: город хорог - горох дорог
+ответ: палиндром
+правильный ответ: палиндром
+
+входная строка: А роза упала на лапу Азора
+ответ: палиндром
+правильный ответ: палиндром
+
+входная строка: арбуз   зубра
+ответ: палиндром
+правильный ответ: палиндром
+
+входная строка: абв  где
+ответ: не палиндром
+правильный ответ: не палиндром
+
+входная строка: deff ffde
+ответ: не палиндром
+правильный ответ: не палиндром
+*/
+{
+	for (int i = 0, j = strlen(text) - 1; i < j;)
+	{
+		if (isalpha((unsigned char)text[i]))
+		{
+			if (isalpha((unsigned char)text[j]))
+			{
+				if (tolower(text[i]) != tolower(text[j]))
+					return 0;
+
+				i++;
+				j--;
+			}
+			else
+				j--;
+		}
+		else
+			i++;
+	}
+	return 1;
+} // end Palindrom
