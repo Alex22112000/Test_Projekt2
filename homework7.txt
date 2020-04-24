@@ -1,0 +1,222 @@
+// kucherin29.03.20.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
+//
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <ctype.h>
+#include <stdio.h>
+#include <cstdio>
+#include <string.h>
+#include <cstring>
+#include <stdlib.h>
+#include <fstream>
+
+void output(char** a, int n);
+
+
+using namespace std;
+
+int main()
+{
+	setlocale(LC_ALL, "Russian");
+	int number;
+
+	cout << "введите номер задания: \n1 - Первое задание по вариантам \n2 - Второе задание по вариантам ";
+	cout << "\n3 - Третье задание по вариантам \n0 - exit\n" << endl;
+	cin >> number;
+	cout << endl;
+
+	while (number != 0)
+	{
+		switch (number)
+		{
+		case 1:
+		{
+			cout << "Вариант 6" << endl;
+			cout << "zadanie1var" << endl;
+			cout << "Напишите функцию склейки строки и n символов другой строки" << endl;
+			cout << "Данная функция должна добавлять n символов второй строки к первой" << endl;
+			
+			int n;
+			cout << "Введите количество символов - ";
+			cin >> n;
+
+			cin.clear();
+			cin.ignore();
+			char line1[255];
+			cout << "Введите строку 1 - ";
+			cin.getline(line1, 255);
+
+			char line2[255];
+			cout << "Введите строку 2 - ";
+			cin.getline(line2, 255);
+
+			int t = strlen(line1);
+			char* newline = new char[t + n + 1];
+			memcpy(newline, line1, t);
+			int k = t;
+			for (int i = 0; i < n; i++)
+			{
+				newline[k] = line2[i];
+				k++;
+			}
+			newline[t + n] = NULL;
+			cout << newline << endl;
+			break;
+		}
+
+		case 2:
+		{
+			cout << "Вариант 6" << endl;
+			cout << "zadanie2var" << endl;
+			cout << "Выведите на экран самое короткое слово последней строки данного текста" << endl;
+			cin.clear();
+			cin.ignore();
+			
+			ifstream text;
+			text.open("D:\\языки программирования\\12 lab_stroki\\file.txt");
+			if (!text)
+			{
+				cout << "Ошибка при открытии файла" << endl;
+				return 1;
+			}
+			const int n = 255;
+			char line[n];
+			char minword[n];
+
+			char seps[] = " .,!?";
+			char* word;
+			int L = 1;
+
+			while (text.getline(line, 255))
+			{
+				if (L == 3)
+				{
+					word = strtok(line, seps);
+					memcpy(minword, word, 255);
+					while (word != NULL)
+					{
+						word = strtok(NULL, seps);
+					
+					if (word != NULL)
+						if (strlen(word) < strlen(minword))
+							memcpy(minword, word, 255);
+					}
+				}
+				L++;
+			}
+			cout << "минимальное слово - " << minword << endl;
+			cout << endl;
+			break;
+		}
+
+		case 3:
+		{
+			cout << "Вариант 6" << endl;
+			cout << "zadanie3var" << endl;
+			cout << "Упорядочите слова текста из задания 2 по убыванию их длины" << endl;
+			cin.clear();
+			cin.ignore();
+
+			int l, count = 0;
+			char t[255];
+
+			ifstream text;
+			text.open("D:\\языки программирования\\12 lab_stroki\\file.txt");
+			if (!text)
+			{
+				cout << "Ошибка при открытии файла" << endl;
+				return 1;
+			}
+			const int n = 255;
+			char line[n];
+			char minword[n];
+
+			char seps[] = " .,!?";
+			char* word;
+			int L = 1;
+
+			while (text.getline(line, n))
+			{
+				if (L == 3)
+				{
+					int i = 0;
+					while (line[i] == ' ' && line[i] != '\0')
+					{
+						i++;
+					}
+					l = 0;
+					while (line[i] != '\0')
+					{
+						if (line[i] != ' ' && l == 0 && line[i] != '-')
+						{
+							l = 1;
+							count++;
+						}
+						else
+							if (line[i] == ' ')
+								l = 0;
+						i++;
+					}
+					cout << "Количество слов в тексте равно " << count << endl;
+
+					char** b = new char* [count];
+					for (i = 0; i < count; i++)
+					{
+						b[i] = new char[n];
+					}
+
+					i = 0;
+					word = strtok(line, seps);
+					while (word != NULL) // разделение 3й строки на слова и задание этих слов в массив по строкам
+					{
+						memcpy(b[i], word, 255);
+						word = strtok(NULL, seps);
+						i++;
+					}
+					
+					output(b, count); // вывод массива b[i], содержащего слова
+					cout << endl;
+
+					for (int i = 1; i <= count; i++) // сортировка строк по убыванию
+					{
+						for (int j = i - 1; j > 0; j--) 
+						{
+							if (strlen(b[j]) > strlen(b[j - 1])) 
+							{
+								memcpy(t, b[j], 255);
+								memcpy(b[j], b[j - 1], 255);
+								memcpy(b[j - 1], t, 255);
+							}
+						}
+					}
+
+					cout << "Упорядоченный массив" << endl;
+					output(b, count); // вывод измененного массива b[i], содержащего слова
+					cout << endl;
+				}
+				L++;
+			}
+			cout << endl;
+			break;
+		}
+
+		case 0:
+		{
+			return 0;
+		}
+		} // end switch
+		cout << "введите номер задания: \n1 - Первое задание по вариантам \n2 - Второе задание по вариантам ";
+		cout << "\n3 - Третье задание по вариантам \n0 - exit\n" << endl;
+		cin >> number;
+		cout << endl;
+	} // end while
+}
+
+void output(char** a, int n)
+{
+	for (int i = 0; i < n; i++) // вывод измененного массива b[i], содержащего слова
+	{
+		cout << a[i] << endl;
+	}
+}
