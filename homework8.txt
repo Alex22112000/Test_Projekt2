@@ -1,0 +1,300 @@
+// kucherin15.05.20.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
+//
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <ctype.h>
+#include <stdio.h>
+#include <cstdio>
+#include <string.h>
+#include <cstring>
+#include <stdlib.h>
+#include <fstream>
+#include <ctime> 
+
+int factorialr(int a);
+int factorial(int a);
+int calculate(int a);
+int degree(int a);
+int count(int* a, int n, int m, int t);
+int trans(int n);
+int regardf(int n);
+int regardg(int n);
+void input(int a[], int n);
+
+using namespace std;
+
+int main()
+{
+	setlocale(LC_ALL, "Russian");
+	int number;
+
+	cout << "введите номер задания: \n1 - Общее задание 1 \n2 - Общее задание 2 \n3 - Общее задание 3 ";
+	cout << "\n4 - Первое задание по вариантам \n5 - Второе задание по вариантам \n6 - Третье задание по вариантам \n0 - exit\n" << endl;
+	cin >> number;
+	cout << endl;
+
+
+	while (number != 0)
+	{
+		switch (number)
+		{
+		case 1:
+		{
+			cout << "Вариант 6" << endl;
+			cout << "zadanie1" << endl;
+			cout << "Написать две функции для вычисления факториала n! – рекурсивную и не рекурсивную" << endl;
+
+			/*
+			Базис:
+			f(1) = 1
+			f(0) = 1
+			*/
+			/*
+			cout << "Рекурсивная функция" << endl;
+			unsigned int start_time = clock();
+			int n;
+			cout << "Введите число - ";
+			cin >> n;
+
+			cout << "factorial = " << factorialr(n) << endl;
+			cout << endl;
+			unsigned int end_time = clock();
+			unsigned int search_time = end_time - start_time;
+			cout << "Время выполнения = " << search_time << endl;
+			cout << endl;
+			*/
+			
+			cout << "Не Рекурсивная функция" << endl;
+			signed int start_time = clock();
+			int n;
+			cout << "Введите число - ";
+			cin >> n;
+
+			cout << "factorial = " << factorial(n) << endl;
+			cout << endl;
+			unsigned int end_time = clock();
+			unsigned int search_time = end_time - start_time;
+			cout << "Время выполнения = " << search_time << endl;
+			cout << endl;
+			
+			break;
+		}
+
+		case 2:
+		{
+			cout << "Вариант 6" << endl;
+			cout << "zadanie2" << endl;
+			cout << "Чему равно значение функции F(6)" << endl;
+
+			/*
+			Базис:
+			f(1) = 3
+			*/
+
+			int n;
+
+			cout << "Введите число - ";
+			cin >> n;
+
+			cout << "f(6) = " << calculate(n) << endl;
+			cout << endl;
+			break;
+		}
+
+		case 3:
+		{
+			cout << "Вариант 6" << endl;
+			cout << "zadanie3" << endl;
+			cout << "Дано натуральное число N" << endl;
+			cout << "Выведите слово YES, если число N является точной степенью двойки, или слово NO в противном случае" << endl;
+
+			/*
+			Базис:
+			если а = 1, то выводим YES
+			если а = 2, то выводим YES
+			если а % 2, то выводим NO
+			*/
+
+			int n;
+
+			cout << "Введите число - ";
+			cin >> n;
+			if (degree(n) == 1) cout << "YES" << endl;
+			else cout << "NO" << endl;
+			cout << endl;
+			break;
+		}
+
+		case 4:
+		{
+			cout << "Вариант 6" << endl;
+			cout << "zadanie1var" << endl;
+			cout << "Напишите рекурсивную функцию, которая находит количество элементов массива, принадлежащих заданному отрезку" << endl;
+
+			/*
+			Базис:
+			если n = 0, то sum = 0
+			*/
+
+			int n, m, t, sum = 0;
+			cout << "Введите длину массива - ";
+			cin >> n;
+
+			cout << "Введите начало отрезка - ";
+			cin >> m;
+			cout << "Введите конец отрезка - ";
+			cin >> t;
+
+			int* a = new int[n];
+			cout << "Введите массив a" << endl;
+			input(a, n);
+
+			sum = count(a, n, m, t);
+			cout << "count = " << sum << endl;
+			cout << endl;
+			break;
+		}
+
+		case 5:
+		{
+			cout << "Вариант 6" << endl;
+			cout << "zadanie2var" << endl;
+			cout << "Написать процедуру перевода числа из десятичной системы счисления в двоичную" << endl;
+
+			/*
+			Базис:
+			p(0) = 0
+			p(1) = 1
+			*/
+
+			int n, t;
+			cout << "Введите число в 10-ной системе - ";
+			cin >> n;
+
+			t = trans(n);
+			cout << "число в 2-ной системе - " << t << endl;
+			cout << endl;
+			break;
+		}
+
+		case 6:
+		{
+			cout << "Вариант 6" << endl;
+			cout << "zadanie3var" << endl;
+			cout << "Вычислите первые 10 значений F(i) и G(i)" << endl;
+
+			/*
+			Базис:
+			если n < 2, то f(1) = 1, g(1) = -1
+			*/
+
+			int n = 10;
+
+			for (int i = 1; i <= n; i++)
+			{
+				cout << "f(" << i << ") = " << regardf(i) << "  " << "g(" << i << ") = " << regardg(i) << endl;
+			}
+			cout << endl;
+			break;
+		}
+
+		case 0:
+		{
+			return 0;
+		}
+		} // end switch
+		cout << "введите номер задания: \n1 - Общее задание 1 \n2 - Общее задание 2 \n3 - Общее задание 3 ";
+		cout << "\n4 - Первое задание по вариантам \n5 - Второе задание по вариантам \n6 - Третье задание по вариантам \n0 - exit\n" << endl;
+		cin >> number;
+		cout << endl;
+	} // end while
+}
+
+int factorialr(int a) // функция вычисляет факториал числа (рекурсивно)
+{
+	if (a == 1 || a == 0)
+		return 1;
+	return a * factorialr(a - 1);
+} // end factorialr
+
+int factorial(int a) // функция вычисляет факториал числа (без рекурсии)
+{
+	int res = 1;
+	for (int i = 1; i <= a; i++)
+		res *= i;
+	return res;
+} // end factorial
+
+int calculate(int a) // функция вычисляет значение функции F(n)
+{
+	if (a == 1) return 3;
+	return calculate(a - 1) * (a - 1);
+} // end calculate
+
+int degree(int a) // функция проверяет, является ли число степенью двойки
+{
+	if (a == 1)
+		return 1;
+	if (a == 2)
+		return 1;
+	if (a == 0)
+		return 0;
+	if (a % 2)
+		return 0;
+	else
+		return degree(a / 2);
+} // end degree
+
+int count(int* a, int n, int m, int t) // функция ищет значения, входяшие в отрезок [n, m]
+{
+	int count1 = 0;
+	if (n == 0)
+		return 0;
+	else
+	{
+		if ((a[n - 1] >= m) && (a[n - 1] <= t))
+			return count(a, n - 1, m, t) + 1;
+		return count(a, n - 1, m, t);
+	}
+} // end count
+
+int trans(int n) // функция переводит число из 10-ой системы в 2-ую
+{
+	if (n < 2)
+		return n % 2;
+	return trans(n / 2) * 10 + n % 2;
+} // end trans
+
+int regardf(int n) // функция считает значения F(i)
+{
+	if (n < 2)
+	{
+		return 1;
+	}
+	else
+	{
+		return regardf(n - 1) - 3 * regardg(n - 1);
+	}
+} // end regardf
+
+
+int regardg(int n) // функция считает значения G(i)
+{
+	if (n < 2)
+	{
+		return -1;
+	}
+	else
+	{
+		return regardf(n - 1) + 2 * regardg(n - 1);
+	}
+} // end regardg
+
+void input(int a[], int n) // функция вводит массив
+{
+	for (int i = 0; i < n; i++)
+	{
+		cin >> a[i];
+	}
+} //end input
