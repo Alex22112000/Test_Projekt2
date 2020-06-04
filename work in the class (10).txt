@@ -1,0 +1,133 @@
+// kucherin04.06.20.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
+//
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <ctype.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <fstream>
+
+
+using namespace std;
+
+struct complex // Структура, определяющая комплексные числа
+{
+    float Re, Im;
+    void print();
+    complex operator+ (complex a);
+    complex operator* (complex a);
+    void set(float, float b);
+    void input();
+};
+
+void complex::print() // Функция структуры, выводящая на экран комплексное число
+{
+    if (Re != 0) 
+        cout << Re;
+    if (Im > 0 && Im != 1) 
+        cout << "+" << Im << "*i";
+    if (Im < 0 && Im != -1) 
+        cout << Im << "*i";
+    if (Im == 0 && Re == 0) 
+        cout << "0";
+    if (Im == 1 && Re != 0) 
+        cout << "+i";
+    if (Im == 1 && Re == 0) 
+        cout << "i";
+    if (Im == -1) 
+        cout << "-i";
+    cout << endl;
+}
+
+complex complex::operator+ (complex a) // Структура, определяющая, как будут суммироваться части комплексного числа
+{
+    complex temp;
+    temp.Re = Re + a.Re;
+    temp.Im = Im + a.Im;
+    return temp;
+}
+
+complex complex::operator* (complex a) // Структура, определяющая, как будут перемножаться части комплексного числа
+{
+    complex temp;
+    temp.Re = Re * a.Re - Im * a.Im;
+    temp.Im = Re * a.Im + a.Re * Im;
+    return temp;
+}
+
+void complex::set(float a, float b) // Функция структуры, заполняющая комплексное число переменными a и b. 
+{
+    Re = a;
+    Im = b;
+}
+
+void complex::input() // Функция структуры, позволяющая вводить данные комплексного числа
+{
+    cout << "Re - ";
+    cin >> Re;
+    cout << "Im - ";
+    cin >> Im;
+}
+
+int main()
+{
+    setlocale(LC_ALL, "Russian");
+
+    /*
+    1) Входные данные:
+    c1 = 2 + 3*i
+    c2 = 2 + i
+
+    Должен выводить:
+    c1 + c1 = 15 - i
+    c1 * c2 = 28 + 9*i
+
+    Выводит:
+    c1 + c1 = 15 - i
+    c1 * c2 = 28 + 9*i
+
+    2) Входные данные:
+    c1 = -10 + 7*i
+    c2 = 3 - 2*i
+
+    Должен выводить:
+    c1 + c1 = -7 + 5*i
+    c1 * c2 = -16 + 41*i
+
+    Выводит:
+    c1 + c1 = -7 + 5*i
+    c1 * c2 = -16 + 41*i
+
+    3) Входные данные:
+    c1 = -20 + 10*i
+    c2 = 26 - 10*i
+
+    Должен выводить:
+    c1 + c1 = 6
+    c1 * c2 = -420 + 460*i
+
+    Выводит:
+    c1 + c1 = 6
+    c1 * c2 = -420 + 460*i
+    */
+
+    complex c1, c2, sum, compos;
+    cout << "Введите с1 - " << endl;
+    c1.input();
+    cout << "Введите с2 - " << endl;
+    c2.input();
+    cout << "c1 = ";
+    c1.print();
+    cout << "c2 = ";
+    c2.print();
+    sum = c1 + c2;
+    cout << "c1 + c1 = ";
+    sum.print();
+    compos = c1 * c2;
+    cout << "c1 * c2 = ";
+    compos.print();
+
+    return 0;
+}
