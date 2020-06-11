@@ -1,0 +1,11 @@
+Azalea/89/25/99
+Rose/187/30/160
+Peony/78/5/60
+Aster/42/14/76
+Lily/17/23/85
+Carnation/29/56/93
+Tulip/98/12/100
+Hibiscus/85/30/120
+Amaryllis/59/30/150
+Chrysanthemum/64/19/148
+Daffodil/32/16/145
