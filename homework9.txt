@@ -1,0 +1,379 @@
+// kucherin04.06.20.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
+//
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <ctype.h>
+#include <stdio.h>
+#include <cstdio>
+#include <string.h>
+#include <cstring>
+#include <stdlib.h>
+#include <fstream>
+
+
+using namespace std;
+
+struct book // структура, опеределяющая тип переменных и функции, связанные с ними
+{
+	const char* name = new char[30];
+	const char* author = new char[25];
+	int year, age;
+	float page;
+	void print();
+	void input();
+};
+
+struct student // структура, опеределяющая тип переменных и функции, связанные с ними
+{
+	char* name = new char[25];
+	int  study_age, point, study_est;
+	char* institute = new char[50];
+	void input_data();
+};
+
+struct blos // структура, опеределяющая тип переменных и функции, связанные с ними
+{
+	char* name = new char[25];
+	int number, day, cost_of_one;
+	void print_data();
+	void Rose();
+	void bouquet_less();
+};
+
+int main()
+{
+	setlocale(LC_ALL, "Russian");
+	int number;
+
+	cout << "введите номер задания: \n1 - Общее задание 1 \n2 - Общее задание 2 \n3 - Первое задание по вариантам ";
+	cout << "\n4 - Второе задание по вариантам \n5 - Третье задание по вариантам \n0 - exit\n" << endl;
+	cin >> number;
+	cout << endl;
+
+	book collection;
+	student temp;
+	blos flowers;
+	blos Rose;
+	blos less;
+
+	while (number != 0)
+	{
+		switch (number)
+		{
+		case 1:
+		{
+			cout << "zadanie1" << endl;
+			cout << "Любимая книга" << endl;
+			cin.clear();
+			cin.ignore();
+
+			collection.input();
+			collection.print();
+
+			cout << endl;
+			break;
+		}
+
+		case 2:
+		{
+
+			cout << "zadanie2" << endl;
+			cout << "Список обучающихся" << endl;
+			cin.clear();
+			cin.ignore();
+
+			temp.input_data();
+
+			cout << endl;
+			break;
+		}
+
+		case 3:
+		{
+			cout << "Вариант 6" << endl;
+			cout << "zadanie1var" << endl;
+			cout << "Выгрузить информацию о всех видах цветов со склада на экран." << endl;
+			cin.clear();
+			cin.ignore();
+
+			flowers.print_data();
+
+			cout << endl;
+			break;
+		}
+
+		case 4:
+		{
+			cout << "Вариант 6" << endl;
+			cout << "zadanie2var" << endl;
+			cout << "Выяснить сколько роз осталось на складе" << endl;
+			cin.clear();
+			cin.ignore();
+
+			Rose.Rose();
+
+			cout << endl;
+			break;
+		}
+
+		case 5:
+		{
+			cout << "Вариант 6" << endl;
+			cout << "zadanie3var" << endl;
+			cout << "Вывести информацию о всех цветах, цена букета из которых не будет превышать тысячу рублей" << endl;
+			cout << "Букет составлен из семи цветов" << endl;
+			cout << "Данные необходимо отсортировать по названию цветов" << endl;
+			cin.clear();
+			cin.ignore();
+
+			less.bouquet_less();
+
+			cout << endl;
+			break;
+		}
+
+		case 0:
+		{
+			return 0;
+		}
+		} // end switch
+		cout << "введите номер задания: \n1 - Общее задание 1 \n2 - Общее задание 2 \n3 - Первое задание по вариантам ";
+		cout << "\n4 - Второе задание по вариантам \n5 - Третье задание по вариантам \n0 - exit\n" << endl;
+		cin >> number;
+		cout << endl;
+	} // end while
+}
+
+void book::input() // функция считывает данные о книге и запоминает их
+{
+	name = "The Myths Of Cthulhu";
+	author = "Howard Phillips Lovecraft";
+	year = 1928;
+	age = 16;
+	page = 900;
+
+}
+
+void book::print() // функция, печатает данные о книге на экран
+{
+	cout << "Название - " << name << endl;
+	cout << "Автор - " << author << endl;
+	cout << "Год выпуска - " << year << endl;
+	cout << "Возрастное ограничение - " << age << endl;
+	cout << "Количество страниц - " << page << endl;
+}
+
+void student::input_data() // функция считывает данные о студентах из файла
+{
+	int i = 0;
+	char stud[255];
+	ifstream  fin("spisok.txt");
+	while (fin.getline(stud, 255, '\n'))
+	{
+		char* words;
+		int l = 0, i = 0, c = 0;
+		char temp[] = ".,!?/";
+		const int n = 255;
+		while (stud[i] != '\0')
+		{
+			if (stud[i] != ' ' && l == 0)
+			{
+				l = 1;
+				c++;
+			}
+			else
+				if (stud[i] == ' ')
+					l = 0;
+			i++;
+		}
+		student* data = new student[c];
+		i = 0;
+		words = strtok(stud, temp);
+		while (words != NULL) // заполнение массива данными о студентах
+		{
+			strcpy(data[i].name, words);
+			cout << "ФИО - " << data[i].name << endl;
+			words = strtok(NULL, temp);
+
+			data[i].study_age = atoi(words);
+			cout << "Возраст - " << data[i].study_age << endl;
+			words = strtok(NULL, temp);
+
+			data[i].point = atoi(words);
+			cout << "Баллы - " << data[i].point << endl;
+			words = strtok(NULL, temp);
+
+			data[i].study_est = atoi(words);
+			cout << "Оценка обучающегося по Английскому - " << data[i].study_est << endl;
+			words = strtok(NULL, temp);
+
+			strcpy(data[i].institute, words);
+			cout << "Тариф - " << data[i].institute << endl;
+			words = strtok(NULL, temp);
+
+			i++;
+			cout << endl;
+		}
+	}
+}
+
+void blos::print_data() // функция печатает данные о цветах из файла
+{
+	char flowers[255];
+	ifstream  fin("text9.txt");
+	while (fin.getline(flowers, 255))
+	{
+		char* word;
+		int l = 0, i = 0, count = 0;
+		char temp[] = " .,!?/";
+		const int n = 255;
+		while (flowers[i] != '\0')
+		{
+			if (flowers[i] != ' ' && l == 0)
+			{
+				l = 1;
+				count++;
+			}
+			else
+				if (flowers[i] == ' ')
+					l = 0;
+			i++;
+		}
+		blos* pr = new blos[count];
+		i = 0;
+		word = strtok(flowers, temp);
+		while (word != NULL) // заполнение массива данными 
+		{
+			strcpy(pr[i].name, word);
+			cout << "Название цветов - " << pr[i].name << endl;
+			word = strtok(NULL, temp);
+
+			pr[i].number = atoi(word);
+			cout << "Количество - " << pr[i].number << endl;
+			word = strtok(NULL, temp);
+
+			pr[i].day = atoi(word);
+			cout << "Срок годности - " << pr[i].day << endl;
+			word = strtok(NULL, temp);
+
+			pr[i].cost_of_one = atoi(word);
+			cout << "Стоимость одного цветка - " << pr[i].cost_of_one << endl;
+			word = strtok(NULL, temp);
+
+			i++;
+			cout << endl;
+		}
+	}
+}
+
+void blos::Rose() // функция определяет количество роз в файле
+{
+	const int n = 255;
+	char flowers[n];
+	char* word;
+	int l = 0, i = 0, count = 0;
+	char temp[] = " .,!?/";
+	ifstream  fin("text9.txt");
+	while (fin.getline(flowers, n))
+	{
+
+		while (flowers[i] != '\0')
+		{
+			if (flowers[i] != ' ' && l == 0)
+			{
+				l = 1;
+				count++;
+			}
+			else
+				if (flowers[i] == ' ')
+					l = 0;
+			i++;
+		}
+		blos* flow = new blos[count];
+		i = 0;
+		word = strtok(flowers, temp);
+		while (word != NULL) // заполнение массива данными
+		{
+			strcpy(flow[i].name, word);
+			word = strtok(NULL, temp);
+
+			flow[i].number = atoi(word);
+			word = strtok(NULL, temp);
+
+			flow[i].day = atoi(word);
+			word = strtok(NULL, temp);
+
+			flow[i].cost_of_one = atoi(word);
+			word = strtok(NULL, temp);
+
+			i++;
+		}
+		for (int i = 0; i < count; i++) // находим Розы в списке и выводим их количество на складе
+		{
+			if (strcmp(flow[i].name, "Rose") == 0)
+				cout << "Количество роз на складе - " << flow[i].number << endl;
+		}
+	}
+}
+
+void blos::bouquet_less() // функция выводит букеты из 7 цветов, цена которых меньше 1000, и выводит их в алфавитном порядке
+{
+	const int n = 255;
+	char flowers[n];
+	int count = 0;
+	char temp[] = ".,!?";
+	char* word;
+	ifstream fin("text9.txt");
+	while (!fin.eof())
+	{
+		fin.getline(flowers, n);
+		count++;
+	}
+	blos* bouquet = new blos[count];
+	fin.close();
+	fin.open("text9.txt");
+	int i = 0;
+	while (fin.getline(flowers, n))
+	{
+		word = strtok(flowers, temp);
+		while (word != NULL) // заполнение массива данными
+		{
+			strcpy(bouquet[i].name, word);
+			word = strtok(NULL, temp);
+
+			bouquet[i].number = atoi(word);
+			word = strtok(NULL, temp);
+
+			bouquet[i].day = atoi(word);
+			word = strtok(NULL, temp);
+
+			bouquet[i].cost_of_one = atoi(word);
+			word = strtok(NULL, temp);
+			i++;
+		}
+	}
+	blos sort[1];
+	for (int i = 0; i < count - 1; i++) // сортировка цветов по алфавиту
+	{
+		for (int j = 0; j < count - i - 1; j++) 
+		{
+			if (strcmp(bouquet[j].name, bouquet[j + 1].name) != 0) 
+			{
+				sort[0] = bouquet[j];
+				bouquet[j] = bouquet[j + 1];
+				bouquet[j + 1] = sort[0];
+			}
+		}
+	}
+	for (int i = 0; i < count; i++)
+	{
+		if ((7 * bouquet[i].cost_of_one) <= 1000) // ищем букеты из 7 цветов стоимостью меньше 1000 рублей
+		{
+			cout << "Название цветов - " << bouquet[i].name << endl;
+			cout << "Количество - " << bouquet[i].number << endl;
+			cout << "Срок годности - " << bouquet[i].day << endl;
+			cout << "Стоимость одного цветка - " << bouquet[i].cost_of_one << endl;
+		}
+	}
+}
