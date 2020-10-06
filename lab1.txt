@@ -1,0 +1,197 @@
+// kucherin08.09.20.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
+//
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include<fstream>
+
+
+using namespace std;
+
+struct DATE
+{
+	int day, month, year, year_need, month_need, day_need;
+	int leap = 0;
+	int array_month[12] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
+	void output_date(int data_day, int data_month, int data_year);
+	void input_date();
+	void time_travel();
+	void subtract_date();
+	void change_year();
+};
+
+int main()
+{
+	setlocale(LC_ALL, "Russian");
+	DATE date;
+	date.input_date();
+	return 0;
+}
+
+void DATE::output_date(int data_day, int data_month, int data_year) // функция выводит дату на экран
+{
+	cout << data_day << "." << data_month << "." << data_year << endl;
+}
+
+void DATE::input_date() // функция считывает данные из файла
+{
+	char period[255];
+	char* word;
+	int i = 0, count = 0, n = 1;
+	char seps[] = " .,!?/";
+	ifstream  fin("date.txt");
+	while (!fin.eof())
+	{
+		fin.getline(period, 255);
+		count++;
+	}
+	DATE* date = new DATE[count];
+	fin.close();
+	fin.open("date.txt");
+	while (fin.getline(period, 255)) // считывание данных из файла
+	{
+		i = 0;
+		word = strtok(period, seps);
+		while (word != NULL) // заполняем массив данными
+		{
+			date[i].year = atoi(word);
+			year = date[i].year;
+			year_need = year;
+			if (date[i].year < 1) // проверка на корректность введённых данных
+			{
+				cout << "Введены некорректные данные" << endl;
+			}
+			word = strtok(NULL, seps);
+			date[i].month = atoi(word);
+			month = date[i].month;
+			month_need = month;
+			if (date[i].month < 1 || date[i].month > 12) // проверка на корректность введённых данных
+			{
+				cout << "Введены некорректные данные" << endl;
+			}
+			word = strtok(NULL, seps);
+			date[i].day = atoi(word);
+			day = date[i].day;
+			day_need = day;
+			if (date[i].year % 4 == 0 || date[i].year % 100 != 0 && date[i].year % 400 == 0) // проверка года на високостность
+			{
+				leap = 1;
+			}
+			if (date[i].month == 2)
+			{
+				if (date[i].day > (28 + leap))
+				{
+					date[i].day = (28 + leap);// присваиваем последний день месяцa
+					day = date[i].day;
+				}
+			}
+			else
+			{
+				if (date[i].month < 8)
+				{
+					if (date[i].day > (30 + date[i].month % 2))
+					{
+						date[i].day = 30 + date[i].month % 2; // присваиваем последний день месяца
+						day = date[i].day;
+					}
+				}
+				else
+					if (date[i].day > (31 - date[i].month % 2))
+					{
+						date[i].day = 31 - date[i].month % 2; // присваиваем последний день месяца
+						day = date[i].day;
+					}
+			}
+
+			cout << n << ") " << date[i].day << "." << date[i].month << "." << date[i].year << endl;
+			n++;
+			word = strtok(NULL, seps);
+
+			time_travel();
+			cout << "Следующий день: ";
+			output_date(day, month, year);
+
+			subtract_date();
+			cout << "Предыдущий день: ";
+			output_date(day, month, year);
+			cout << endl;
+
+			change_year();
+			i++;
+		}
+	}
+}
+
+void DATE::time_travel() // функция находит следующий день
+{
+	day++;
+	if (day > array_month[month - 1])
+	{
+		day = 1;
+		month++;
+		if (month > 12)
+		{
+			month = 1;
+			year++;
+		}
+
+	}
+}
+
+
+void DATE::subtract_date() // функция находит предыдущий день
+{
+	if (year % 4 == 0 || year % 100 != 0 && year % 400 == 0)
+	{
+		leap = 1;
+	}
+	if (day == 1)
+	{
+		month--;
+		if (month >= 1)
+		{
+			day = array_month[month - 1] + leap;
+		}
+		else
+		{
+			month = 12;
+			day = array_month[month - 2] + leap;
+			year--;
+		}
+	}
+	else
+	{
+		day = day - 2;
+		if (day < 1)
+		{
+			month--;
+			if (month >= 1)
+			{
+				day = array_month[month - 1] + leap;
+			}
+			else
+			{
+				month = 12;
+				//day = array_month[month - 2] + leap;
+				day = 31;
+				year--;
+			}
+		}
+	}
+}
+
+void DATE::change_year()
+{
+	int n = 1;
+	if (year_need > year)
+	{
+		cout << "Вариант 6" << endl;
+		cout << "zadanie1var" << endl;
+		cout << "Предыдущая дата попадает на другой год" << endl;
+		cout << n << ") " << day_need << "." << month_need << "." << year_need << endl;
+		cout << "Предыдущий день: ";
+		output_date(day, month, year);
+		cout << endl;
+		n++;
+	}
+}
