@@ -1,0 +1,209 @@
+// kucherin04.10.20.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
+//
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+
+using namespace std;
+
+class complex
+{
+    float re, im;
+
+public:
+    complex(float a = 0, float b = 0);
+    complex(const complex& copy);
+    complex operator+ (const complex& u);
+    complex operator* (const complex& u);
+
+    void output();
+    void input(float a, float b);
+    float mod();
+
+    bool operator== (complex& Real, complex& Imaginary);
+    bool operator> (complex& Real, complex& Imaginary);
+    bool operator< (complex& Real, complex& Imaginary);
+    friend ostream& operator<< (ostream& out, const complex& c);
+    friend istream& operator>> (istream& in, complex& c);
+};
+
+complex::complex(float a, float b) // Конструктор для создания комплектного числа с возможностью задавать значения
+{
+    re = a;
+    im = b;
+}
+
+complex::complex(const complex& copy) // Конструктор копирования
+{
+    re = copy.re;
+    im = copy.im;
+}
+
+complex complex::operator+ (const complex& u) // Конструктор, который вычисляет сумму комплексных чисел
+{
+    complex temp;
+    temp.re = re + u.re;
+    temp.im = im + u.im;
+    return temp;
+}
+
+complex complex::operator* (const complex& u) // Конструктор, который вычисляет произведение комплексных чисел
+{
+    complex temp;
+    temp.re = re * u.re - im * u.im;
+    temp.im = re * u.im + u.re * im;
+    return temp;
+}
+
+void complex::output() // Функция класса, выводящая на экран комплексное число
+{
+    if (re != 0)
+        cout << re;
+    if (im > 0 && im != 1)
+        cout << "+" << im << "*i";
+    if (im < 0 && im != -1)
+        cout << im << "*i";
+    if (im == 0 && re == 0)
+        cout << "0";
+    if (im == 1 && re != 0)
+        cout << "+i";
+    if (im == 1 && re == 0)
+        cout << "i";
+    if (im == -1)
+        cout << "-i";
+}
+
+void complex::input(float a, float b) // Функция класса, изменяющая значения re и im
+{
+    re = a;
+    im = b;
+}
+
+float complex::mod() // Функция класса, которая возращает значение модуля комплексного числа
+{
+    return sqrt(re * re + im * im);
+}
+
+bool operator== (complex& Real, complex& Imaginary) // Перегрузка оператора равно
+{
+    return Real.mod() == Imaginary.mod();
+}
+
+bool operator> (complex& Real, complex& Imaginary) // Перегрузка оператора больше
+{
+    return Real.mod() > Imaginary.mod();
+}
+
+bool operator< (complex& Real, complex& Imaginary) // Перегрузка оператора меньше
+{
+    return Real.mod() < Imaginary.mod();
+}
+
+ostream& operator<< (ostream& out, const complex& c) // Перегрузка оператора вывода
+{
+    if (c.re != 0)
+        out << c.re;
+    if (c.im > 0 && c.im != 1)
+        out << "+" << c.im << "*i";
+    if (c.im < 0 && c.im != -1)
+        out << c.im << "*i";
+    if (c.im == 0 && c.re == 0)
+        out << "0";
+    if (c.im == 1 && c.re != 0)
+        out << "+i";
+    if (c.im == 1 && c.re == 0)
+        out << "i";
+    if (c.im == -1)
+        out << "-i";
+    return out;
+}
+
+istream& operator>> (istream& in, complex& c) // Перегрузка оператора ввода
+{
+    in >> c.re;
+    in >> c.im;
+    return in;
+}
+
+int main()
+{
+    setlocale(LC_ALL, "Russian");
+
+    complex a, b, w, d, cmpl;
+    float g;
+
+    cout << "Введите a - " << endl;
+    cin >> a;
+
+    cout << "Введите b - " << endl;
+    cin >> b;
+
+    cout << "Введите сmpl - " << endl;
+    cin >> cmpl;
+
+    g = cmpl.mod();
+    d = a + b;
+    w = a * b;
+
+    cout << endl;
+
+    if (a == b)
+    {
+        cout << "комплексные числа равны" << endl;
+    }
+    else
+    {
+        cout << "комплексные числа не равны" << endl;
+    }
+
+    cout << "a = " << a << endl;
+    cout << "b = " << b << endl;
+    cout << "d = " << d << endl;
+    cout << "w = " << w << endl;
+    cout << "g = " << g << endl;
+}
+/*
+сумма и произведение комплексных чисел
+1) Входные данные:
+    a = 2 + 3*i
+    b = 2 + i
+
+    Должен выводить:
+    d = 4 + 4*i
+    w = 1 + 8*i
+
+    Выводит:
+    d = 4 + 4*i
+    w = 1 + 8*i
+
+2) Входные данные:
+    a = 4 - 2*i
+    b = -1 + 5*i
+
+    Должен выводить:
+    d = 3 + 3*i
+    w = 6 + 22*i
+
+    Выводит:
+    d = 3 + 3*i
+    w = 6 + 22*i
+
+модуль комплексного числа
+3) Входные данные:
+    сmpl = 12 + 1*i
+
+    Должен выводить:
+    g = 12.0416
+
+    Выводит:
+    g = 12.0416
+
+3) Входные данные:
+    сmpl = -15 - 3*i
+
+    Должен выводить:
+    g = 15.2971
+
+    Выводит:
+    g = 15.2971
+*/
